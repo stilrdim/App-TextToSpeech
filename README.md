@@ -33,7 +33,6 @@ Use `check_for_setup(user_input: String)` to check if the user input was "setup"
 
 `content: String`
 Text to convert to speech
->Default: 'Hello world'
 
 `filename: String`
 File name WITHOUT extension. All files will be mp3
