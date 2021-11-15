@@ -14,6 +14,7 @@ print("""
 |                                                       |
 | Examples:     y      f                                |
 |              Yes   Female                             |
+|              Save                                     |
 |                                                       |
 |                                                       |
 |                                  Copyright Stil 2021  |
