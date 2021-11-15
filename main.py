@@ -12,8 +12,8 @@ print("""
 | use "SETUP" as any of the inputs.                     |
 |                                                       |
 |                                                       |
-| Examples:     y                                       |
-|              Yes                                      |
+| Examples:     y      f                                |
+|              Yes   Female                             |
 |                                                       |
 |                                                       |
 |                                  Copyright Stil 2021  |
@@ -25,10 +25,11 @@ try:
     with open(SETTINGS_FILE, 'r+') as f:
         file_content = f.read()
 
-    # settings = file_content.split('\n')
-    settings = file_content
+    settings = file_content.split('\n')
+    save_or_not = settings[0][0]
+    male_or_female = settings[1][0]
 
-    save_or_not = settings[0]
+    print('Current settings: %s' % settings)
 
 # Settings file not found
 except FileNotFoundError:
@@ -39,13 +40,23 @@ except FileNotFoundError:
         save_or_not = 'n'
         print(save_or_not)
 
+    male_or_female = input("[M]ale or [F]emale voice?").lower()
+    check_for_stop(male_or_female)
+    check_for_setup(male_or_female)
+    if male_or_female == '':
+        male_or_female = 'm'
+        print(male_or_female)
+
     # Hardcoded settings
-    suffix = 1
+    suffix = 1  # TODO: automate a couple messages off of a text file and use suffix for each new mp3 file
+
 except IndexError:
     create_settings(SETTINGS_FILE)
-    save_or_not = 'n'  # Just to stop the IDE warning
 
-print('Current settings: %s' % save_or_not)
+    # Just to stop the IDE warning
+    save_or_not = 'n'
+    male_or_female = 'm'
+
 
 while True:
     contents = []
@@ -61,10 +72,10 @@ while True:
 
     # Run
     if save_or_not[0] == 'n':
-        speak(content=user_input)
+        speak(content=user_input, gender=male_or_female)
 
     # Run and Save
     if save_or_not[0] == 'y':
         tts_filename = input('File name:\t\t\tExample: new_file\n')
-        save(content=user_input, filename=tts_filename)
+        save(content=user_input, filename=tts_filename, gender=male_or_female)
 

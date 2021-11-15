@@ -7,14 +7,32 @@ SETTINGS_FILE = 'settings.txt'
 engine = pyttsx3.init('sapi5')
 
 
-def save(content, filename='tts'):
+def save(content, filename='tts', gender='male'):
+    full_filename = f'{filename}.mp3'
+    # Voice gender
+    if gender[0] == 'm':
+        voices = engine.getProperty('voices')
+        engine.setProperty('voice', voices[0].id)
+    else:
+        voices = engine.getProperty('voices')
+        engine.setProperty('voice', voices[1].id)
+
     if filename == '':
         filename = 'tts'
-    engine.save_to_file(content, f'{filename}.mp3')
+    engine.save_to_file(content, full_filename)
     engine.runAndWait()
+    print('File %s saved successfully' % full_filename)
 
 
-def speak(content):
+def speak(content, gender='male'):
+    # Voice gender
+    if gender[0] == 'm':
+        voices = engine.getProperty('voices')
+        engine.setProperty('voice', voices[0].id)
+    else:
+        voices = engine.getProperty('voices')
+        engine.setProperty('voice', voices[1].id)
+
     engine.say(content)
     engine.runAndWait()
 
@@ -24,7 +42,8 @@ def create_settings(settings_file):
     settings = []
 
     print("------------BEGIN CREATING SETTINGS------------\n")
-    # Get settings
+
+    # Save file or not
     save_or_not = input("Save the text in a file? [Y]es/[N]o\n").lower()
     try:
         while save_or_not[0] not in ['y', 'n']:
@@ -36,6 +55,19 @@ def create_settings(settings_file):
         save_or_not = 'no'
         print(save_or_not)
         settings.append(save_or_not)
+
+    # Voice gender
+    male_or_female = input("[M]ale or [F]emale voice?\n").lower()
+    try:
+        while male_or_female[0] not in ['m', 'f']:
+            print('Invalid input. Expecting: "MALE" or "FEMALE"')
+            male_or_female = settings.append(input("MALE or FEMALE\n").lower())
+        else:
+            settings.append(male_or_female)
+    except IndexError:
+        male_or_female = 'male'
+        print(male_or_female)
+        settings.append(male_or_female)
 
     # Write the settings down and exit the file
     with open(settings_file, 'w') as f:
