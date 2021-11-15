@@ -23,9 +23,9 @@ user_input = input("> ")
 speak(user_input)
 ```
   
-Use `speak` to turn text into speech and execute the speech
+Use `speak(content: String)` to turn text into speech and execute the speech
 
-Use `save` to turn text into speech and save it in an mp3 file
+Use `save(content: String, filename: String` to turn text into speech and save it in an mp3 file
 
 Use `check_for_stop(user_input: String)` to check if the user input was "stop" or "s", if so, closes the file 
 
